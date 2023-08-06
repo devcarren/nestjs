@@ -3,11 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Employee } from 'src/domain/employee.entity';
 import { Department } from 'src/domain/department.entity';
 
-import { EmployeeDTO } from 'src/employee/dto/employee.dto';
 import { Repository } from 'typeorm';
 import { Job } from 'src/domain/job.entity';
 import { RepoUtils } from 'src/common/repoutils';
 import { Transactional } from 'src/common/transaction.manager';
+import { EmployeeDTO } from '../../dto/employee.dto';
 
 @Injectable()
 export class EmployeeService {

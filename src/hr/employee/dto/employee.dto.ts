@@ -6,7 +6,7 @@
 //   age: Joi.number().required(),
 // });
 
-export class EmployeeDTO {
+export interface EmployeeDTO {
   employee_id: number;
   first_name: string;
   last_name: string;
