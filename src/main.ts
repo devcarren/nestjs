@@ -4,13 +4,15 @@ import { InputDataSanitizationInteceptor } from './common/InputsanitizationInter
 import helmet from 'helmet';
 import { WinstonModule } from 'nest-winston';
 import { winstonConfig } from './config/logger.config';
-import { config } from 'dotenv';
+import { JwtMiddleware } from './auth/guards/jwt.middleware';
 
 async function bootstrap() {
-  config({ path: '/dev/poc/nestjs/props/.env' });
+  // config({ path: '/dev/poc/nestjs/props/.env' });
   const app = await NestFactory.create(AppModule, {
     logger: WinstonModule.createLogger(winstonConfig),
   });
+  app.use('*/private/*', JwtMiddleware);
+
   app.useGlobalInterceptors(new InputDataSanitizationInteceptor());
   console.log(`Test Value  ${process.env.TEST}`);
   console.log(`App starting on ${process.env.PORT}`);

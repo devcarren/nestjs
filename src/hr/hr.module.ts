@@ -5,10 +5,11 @@ import { Department } from 'src/domain/department.entity';
 import { Job } from 'src/domain/job.entity';
 import { EmployeeService } from './employee/services/employee/employee.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   controllers: [EmployeeController],
-  imports: [TypeOrmModule.forFeature([Employee, Department, Job])],
+  imports: [TypeOrmModule.forFeature([Employee, Department, Job]), AuthModule],
   providers: [EmployeeService],
 })
 export class HrModule {}
