@@ -5,10 +5,11 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
-  constructor(private _jwtService: JwtService) {}
+  constructor(private readonly _jwtService: JwtService) {}
 
   async generateJWT(payload: any): Promise<string> {
-    return this._jwtService.sign(payload);
+    const payload2 = { username: 'Carren', sub: 22 };
+    return this._jwtService.sign(payload2);
   }
 
   async hashPassword(password: string): Promise<string> {

@@ -16,7 +16,7 @@ export class EmployeeController {
   }
 
   @Get('get/:id')
-  getEmployee(@Param() params: any, @Req() req: Request) {
+  async getEmployee(@Param() params: any, @Req() req: Request) {
     this._logger.debug(`you have asked for ${params.id}`);
     return `you asked for ${params.id} employee`;
   }
@@ -35,7 +35,7 @@ export class EmployeeController {
     // this._employeeService.create(employeeDTO);
   }
 
-  @Get()
+  @Get('/sendMail')
   async sendMail() {
     const mailDTO: MailDTO = {
       from: 'abc@y.com',
@@ -44,5 +44,11 @@ export class EmployeeController {
       templateContext: ['item1', 'item2', 'item3'],
     };
     this._emailService.sendMail(mailDTO, 'email.hbs');
+  }
+
+  @Get('/private/getPrivateData')
+  async getPrivateData(@Req() req: Request) {
+    console.log(` in Request  ${JSON.stringify(req['user'])}`);
+    return 'You are in a private Method ';
   }
 }

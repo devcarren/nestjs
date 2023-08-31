@@ -6,10 +6,11 @@ import { Job } from 'src/domain/job.entity';
 import { EmployeeService } from './employee/services/employee/employee.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from 'src/auth/auth.module';
+import { MailService } from 'src/common/mail.service';
 
 @Module({
   controllers: [EmployeeController],
   imports: [TypeOrmModule.forFeature([Employee, Department, Job]), AuthModule],
-  providers: [EmployeeService],
+  providers: [EmployeeService, MailService],
 })
 export class HrModule {}
