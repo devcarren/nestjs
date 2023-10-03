@@ -4,7 +4,6 @@ import { InputDataSanitizationInteceptor } from './common/InputsanitizationInter
 import helmet from 'helmet';
 import { WinstonModule } from 'nest-winston';
 import { winstonConfig } from './config/logger.config';
-import { config } from 'dotenv';
 import { CommonExceptionFilter } from './common/common.exception.filter';
 
 async function bootstrap() {
@@ -18,8 +17,9 @@ async function bootstrap() {
   app.useGlobalFilters(new CommonExceptionFilter());
 
   app.enableCors();
-  app.use(helmet());
+  app.use(helmet({ contentSecurityPolicy: false }));
 
+  app.setGlobalPrefix('api');
   console.log(`App starting on ${process.env.PORT}`);
   await app.listen(process.env.PORT);
 }

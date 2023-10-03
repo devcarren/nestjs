@@ -13,6 +13,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   // logging: true,
   logger: new WinstonTypeOrmLogger(),
   autoLoadEntities: true,
+  keepConnectionAlive: true,
   extra: {
     max: 20,
     min: 5,

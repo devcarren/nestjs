@@ -8,8 +8,19 @@ import { typeOrmConfig } from './config/db.config';
 import { HrModule } from './hr/hr.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtMiddleware } from './auth/guards/jwt.middleware';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 @Module({
-  imports: [ConfigModule.forRoot(), TypeOrmModule.forRoot(typeOrmConfig), HrModule, AuthModule],
+  imports: [
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRoot(typeOrmConfig),
+    HrModule,
+    AuthModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
+      exclude: ['/api/(.*)'],
+    }),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
@@ -23,10 +34,10 @@ export class AppModule implements NestModule {
 
     // consumer.apply(LoggerMiddleware).forRoutes('*');
     // consumer.apply(JwtMiddleware).forRoutes({ path: '*/private/*', method: RequestMethod.ALL });
-    consumer.apply(LoggerMiddleware).forRoutes('*');
+    consumer.apply(LoggerMiddleware).forRoutes('/api/*');
     consumer.apply(JwtMiddleware).forRoutes(
       // { path: '*/private', method: RequestMethod.ALL },
-      { path: '*/private/*', method: RequestMethod.ALL },
+      { path: '/api/*/private/*', method: RequestMethod.ALL },
     );
   }
 }
