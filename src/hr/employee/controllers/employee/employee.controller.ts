@@ -62,8 +62,8 @@ export class EmployeeController {
   async getUserAPIData() {
     const url = 'https://dtdev.dubaitrade.ae/umwsrest/api/user/v1/fetchSubUsers';
     const headers = {
-      'X-DTUM-Access-Key': 'b017da8c710a97862be7a686440c91464cddd905',
-      Authorization: 'Basic ZHRhcGl1c2VyOkxvZ2luMzQ1',
+      'X-DTUM-Access-Key': 'xxxxx',
+      Authorization: 'Basic xxx',
     };
     const body = {
       userName: 'salimak7',
