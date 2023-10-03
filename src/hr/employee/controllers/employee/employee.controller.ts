@@ -4,12 +4,18 @@ import { EmployeeDTO } from '../../dto/employee.dto';
 import { EmployeeService } from '../../services/employee/employee.service';
 import { MailService } from 'src/common/mail.service';
 import { MailDTO } from 'src/common/mail.dto';
+import { HttpService } from 'src/common/http.service';
+import { log } from 'console';
 
 @Controller('employee')
 export class EmployeeController {
   private readonly _logger = new Logger(EmployeeController.name);
 
-  constructor(private _employeeService: EmployeeService, private _emailService: MailService) {}
+  constructor(
+    private _employeeService: EmployeeService,
+    private _emailService: MailService,
+    private _httpService: HttpService,
+  ) {}
   @Get('getAll')
   async getAll(@Query() queryParams: any) {
     return this._employeeService.getAll();
@@ -50,5 +56,20 @@ export class EmployeeController {
   async getPrivateData(@Req() req: Request) {
     console.log(` in Request  ${JSON.stringify(req['user'])}`);
     return 'You are in a private Method ';
+  }
+
+  @Get('/userApiData')
+  async getUserAPIData() {
+    const url = 'https://dtdev.dubaitrade.ae/umwsrest/api/user/v1/fetchSubUsers';
+    const headers = {
+      'X-DTUM-Access-Key': 'b017da8c710a97862be7a686440c91464cddd905',
+      Authorization: 'Basic ZHRhcGl1c2VyOkxvZ2luMzQ1',
+    };
+    const body = {
+      userName: 'salimak7',
+    };
+    const data = await this._httpService.post(url, body, { headers });
+    console.log(' After data ');
+    return data;
   }
 }

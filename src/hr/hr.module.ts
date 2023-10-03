@@ -7,10 +7,11 @@ import { EmployeeService } from './employee/services/employee/employee.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from 'src/auth/auth.module';
 import { MailService } from 'src/common/mail.service';
+import { HttpService } from 'src/common/http.service';
 
 @Module({
   controllers: [EmployeeController],
   imports: [TypeOrmModule.forFeature([Employee, Department, Job]), AuthModule],
-  providers: [EmployeeService, MailService],
+  providers: [EmployeeService, MailService, HttpService],
 })
 export class HrModule {}
