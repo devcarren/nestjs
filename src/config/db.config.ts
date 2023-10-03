@@ -1,9 +1,10 @@
+import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { config } from 'dotenv';
 import { WinstonTypeOrmLogger } from 'src/common/winston.logger';
 
-config();
-export const typeOrmConfig: TypeOrmModuleOptions = {
+// config();
+
+export const getTypeOrmConfig = (configService: ConfigService): TypeOrmModuleOptions => ({
   type: 'postgres',
   host: process.env.DB_HOST,
   port: parseInt(process.env.DB_PORT),
@@ -23,4 +24,4 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
     idleTimeoutMillis: 30000, // 30 seconds
     connectionTimeoutMillis: 2000, // 2 seconds
   },
-};
+});

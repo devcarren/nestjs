@@ -2,9 +2,9 @@ import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/c
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { LoggerMiddleware } from './common/logger.middleware';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { typeOrmConfig } from './config/db.config';
+import { getTypeOrmConfig } from './config/db.config';
 import { HrModule } from './hr/hr.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtMiddleware } from './auth/guards/jwt.middleware';
@@ -12,8 +12,15 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 @Module({
   imports: [
-    ConfigModule.forRoot(),
-    TypeOrmModule.forRoot(typeOrmConfig),
+    ConfigModule.forRoot({
+      envFilePath: process.env.CONFIG_PATH,
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => getTypeOrmConfig(configService),
+      inject: [ConfigService],
+    }),
+
     HrModule,
     AuthModule,
     ServeStaticModule.forRoot({
