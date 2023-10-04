@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Logger, Param, Post, Query, Req, UsePipes } from '@nestjs/common';
-import { Request } from 'express';
+import { Body, Controller, Get, Logger, Param, Post, Query, Req, Res } from '@nestjs/common';
+import { Request, Response } from 'express';
 import { EmployeeDTO } from '../../dto/employee.dto';
 import { EmployeeService } from '../../services/employee/employee.service';
 import { MailService } from 'src/common/mail.service';
@@ -19,6 +19,12 @@ export class EmployeeController {
   @Get('getAll')
   async getAll(@Query() queryParams: any) {
     return this._employeeService.getAll();
+  }
+
+  @Get('redirect')
+  async redirect(@Req() req: Request, @Res() resp: Response) {
+    console.log(' IN redirect ');
+    return resp.redirect('/sample');
   }
 
   @Get('get/:id')
@@ -62,8 +68,8 @@ export class EmployeeController {
   async getUserAPIData() {
     const url = 'https://dtdev.dubaitrade.ae/umwsrest/api/user/v1/fetchSubUsers';
     const headers = {
-      'X-DTUM-Access-Key': 'xxxxx',
-      Authorization: 'Basic xxx',
+      'X-DTUM-Access-Key': 'b017da8c710a97862be7a686440c91464cddd905',
+      Authorization: 'Basic ZHRhcGl1c2VyOkxvZ2luMzQ1',
     };
     const body = {
       userName: 'salimak7',
