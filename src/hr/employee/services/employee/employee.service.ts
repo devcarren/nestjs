@@ -8,6 +8,7 @@ import { Job } from 'src/domain/job.entity';
 import { RepoUtils } from 'src/common/repoutils';
 import { Transactional } from 'src/common/transaction.manager';
 import { EmployeeDTO } from '../../dto/employee.dto';
+import { log } from 'console';
 
 @Injectable()
 export class EmployeeService {
@@ -72,15 +73,23 @@ export class EmployeeService {
       throw new Error('Manager not found');
     }
 
-    const newEmployee = {
-      ...rest,
-      hire_date: new Date(hire_date),
-      job,
-      department,
-      manager,
-    };
+    let newEmp = new Employee();
+    newEmp = await RepoUtils.mergeEntityData(newEmp, rest);
+    newEmp.hire_date = new Date(hire_date);
+    newEmp.job = job;
+    newEmp.department = department;
+    newEmp.manager = manager;
+    console.log(newEmp);
+    // const newEmployee = {
+    //   ...rest,
+    //   hire_date: new Date(hire_date),
+    //   job,
+    //   department,
+    //   manager,
+    // };
 
-    return await RepoUtils.insertEntity(this._employeeRepo, newEmployee);
+    // return null
+    return await RepoUtils.insertEntity(this._employeeRepo, newEmp);
     // return await RepoUtils.upsertEntity(this._employeeRepo, newEmployee);
 
     // return await this._employeeRepo.save(newEmployee);

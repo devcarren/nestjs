@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { JwtMiddleware } from './auth/guards/jwt.middleware';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -25,7 +26,8 @@ import { join } from 'path';
     AuthModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
-      exclude: ['/api/(.*)'],
+      serveRoot: '/vw',
+      exclude: ['/vw/api/(.*)'],
     }),
   ],
   controllers: [AppController],
@@ -41,10 +43,10 @@ export class AppModule implements NestModule {
 
     // consumer.apply(LoggerMiddleware).forRoutes('*');
     // consumer.apply(JwtMiddleware).forRoutes({ path: '*/private/*', method: RequestMethod.ALL });
-    consumer.apply(LoggerMiddleware).forRoutes('/api/*');
+    consumer.apply(LoggerMiddleware).forRoutes(`${process.env.BASEURL}/api/*`);
     consumer.apply(JwtMiddleware).forRoutes(
       // { path: '*/private', method: RequestMethod.ALL },
-      { path: '/api/*/private/*', method: RequestMethod.ALL },
+      { path: `${process.env.BASEURL}/api/*/private/*`, method: RequestMethod.ALL },
     );
   }
 }

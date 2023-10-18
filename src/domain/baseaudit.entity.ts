@@ -15,4 +15,7 @@ export abstract class BaseAuditEntity {
 
   @VersionColumn()
   version: number;
+
+  @Column({ type: 'integer', default: 1, name: 'is_valid' })
+  isValid: number;
 }

@@ -70,4 +70,15 @@ export class RepoUtils {
   //     throw new Error('Error inserting new entity');
   //   }
   // }
+
+  static async mergeEntityData<T>(entity: T, data: Partial<T>): Promise<T> {
+    // Iterate over all keys in the data object
+    Object.keys(data).forEach((key) => {
+      // If the entity has the key, assign the value from data
+      if (entity.hasOwnProperty(key)) {
+        entity[key] = data[key];
+      }
+    });
+    return entity;
+  }
 }

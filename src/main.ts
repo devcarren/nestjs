@@ -8,7 +8,7 @@ import { CommonExceptionFilter } from './common/common.exception.filter';
 
 async function bootstrap() {
   //TO Point to an external properties file, other it will look into .env under the src folder
-  // config({ path: '/dev/poc/nestjs/props/.env' });
+  // config({ path: 'D:\\dev\\poc\\nestjs\\props\\.env' });
   const app = await NestFactory.create(AppModule, {
     logger: WinstonModule.createLogger(winstonConfig),
   });
@@ -19,7 +19,7 @@ async function bootstrap() {
   app.enableCors();
   app.use(helmet({ contentSecurityPolicy: false }));
 
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix(`${process.env.BASERURL}/api`);
   console.log(`App starting on ${process.env.PORT}`);
   await app.listen(process.env.PORT);
 }
